@@ -10,6 +10,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: "${{ github.token }}"
       - run: echo "Starting job [Event=${{ github.event_name }}]"
       - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: |
