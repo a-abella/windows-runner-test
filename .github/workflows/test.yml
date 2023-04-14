@@ -1,6 +1,6 @@
 name: TestExecute Simple Test
 run-name: ${{ github.actor }} trying to run TestExecute
-on: [workflow_dispatch]
+on: [push, workflow_dispatch]
 jobs:
   DownloadInstallAndRunTE:
     timeout-minutes: 30
