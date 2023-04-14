@@ -1,6 +1,9 @@
 name: TestExecute Simple Test
-run-name: ${{ github.actor }} trying to run TestExecute
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+    
 jobs:
   DownloadInstallAndRunTE:
     timeout-minutes: 30
@@ -25,8 +28,3 @@ jobs:
           ngrok-token: ${{ secrets.NGROK_AUTH_TOKEN }}
           password: "${{ secrets.RDP_PW }}}" # You can also put the password in secrets as you wish.
           #foreground: false
-      
-      # - run: .\test-runner.bat ${{ secrets.TEST_EXECUTE_ACCESS_KEY }}
-      #   shell: cmd
-      # - run: echo "Test executed!"
-      #   shell: cmd
