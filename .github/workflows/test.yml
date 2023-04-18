@@ -6,6 +6,7 @@ on:
     
 jobs:
   DownloadInstallAndRunTE:
+    name: Download and Install TE
     timeout-minutes: 30
     runs-on: windows-latest
     steps:
