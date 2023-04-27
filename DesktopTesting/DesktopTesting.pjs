@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root signature="{24B6FA0B-0143-461A-9758-AEB9E9A9428B}" version="15.0" key="{ECCEC21A-57D0-4FB2-BEF9-542B3DB20F37}">
+	<children>
+		<child name="BasicDesktopTest" key="{E1D725DA-6542-4881-8D63-49013D6A604E}" path="BasicDesktopTest\BasicDesktopTest.mds" />
+	</children>
+	<testItems key="{F20A312C-AA12-40A8-B941-4D4F13DFE17D}">
+		<children>
+			<testItem key="{E1D725DA-6542-4881-8D63-49013D6A604E}" enabled="True" timeout="0" stopOnError="True" description="" />
+		</children>
+	</testItems>
+	<variables key="{21E3DC59-E9C3-4506-A0ED-5266DABBBE0D}" />
+	<analysis key="{2B48875C-7F35-4F5C-A7A8-53DFC126DC75}" />
+	<scc key="{00000000-0000-0000-0000-000000000000}" name="">
+		<data />
+	</scc>
+</Root>

@@ -12,16 +12,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: echo "Starting job [Event=${{ github.event_name }}]"
-      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "This job is now running on a ${{ runner.os }} self-hosted server!"
       - run: |
           echo "PWD: $PWD"
-      - run: |
-          $ProgressPreference = 'SilentlyContinue'
-          Invoke-WebRequest -Uri "${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}" -OutFile ".\TE.exe" 
-      - run: echo "TestExecute downloaded - ${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}"
-      - run: dir
-        shell: cmd
-      - run: .\TE.exe -SilentInstall
+      # - run: |
+      #     $ProgressPreference = 'SilentlyContinue'
+      #     Invoke-WebRequest -Uri "${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}" -OutFile ".\TE.exe" 
+      # - run: echo "TestExecute downloaded - ${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}"
+      # - run: dir
+      #   shell: cmd
+      # - run: .\TE.exe -SilentInstall
         shell: cmd
       - run: set PATH_TE="${{ vars.TEST_EXECUTE_BIN }}"
         shell: cmd

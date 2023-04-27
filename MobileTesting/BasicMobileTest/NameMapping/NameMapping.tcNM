@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root Signature="{5DCBAC3B-D39C-497C-9BE8-744CBADD37AA}" NameMappingVersion="7" SaveImages="0">
+	<Storages Current="0">
+		<Child Name="Default Configuration" />
+	</Storages>
+	<Nodes Name="NameMapping" Key="{BE401E45-B2D6-4FBA-931A-C2117D5C51AD}">
+		<Children>
+			<Child Name="Mobile" Key="{E3067F79-B66A-4D07-92B2-7C8DD4DBDC4C}">
+				<TypeInfo Item0="{B334C586-BD0D-4AB8-A7EB-1229F7CA560D}" />
+				<Properties>
+					<Property Name="Name">
+						<Value Value="Mobile" />
+					</Property>
+				</Properties>
+				<Children>
+					<Child Name="Device" Key="{690E46F4-D5C1-44DE-BC72-329E3BAA16EB}">
+						<TypeInfo Item0="{A2E32DAD-98D4-4E0B-811B-0F649A30DCFA}" />
+						<Properties>
+							<Property Name="ObjectType">
+								<Value Value="Device" />
+							</Property>
+						</Properties>
+						<Children>
+							<Child Name="processSmartBearQAAppsOrders" Key="{3541412F-6594-492A-A6E7-76F24B7F98FC}">
+								<TypeInfo Item0="{DACCF515-2484-4135-A417-F384039A58BE}" />
+								<Properties>
+									<Property Name="ProcessName">
+										<Value Value="SmartBear.QAApps.Orders" />
+									</Property>
+								</Properties>
+								<Children>
+									<Child Name="table" Key="{2597143A-5218-45E1-B727-7CA3B7E073B1}">
+										<Image FileName="860343975" Left="640" Top="0" Right="1620" Bottom="2160" />
+										<TypeInfo Item0="{9E688D25-DA4F-4A41-9B2D-4CDA76847109}" />
+										<Selectors>
+											<Selector>
+												<Value Value="//*[*[@label=&quot;PRODUCT INFO&quot;]]" />
+											</Selector>
+											<Selector>
+												<Value Value="//XCUIElementTypeOther[3]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable" />
+											</Selector>
+										</Selectors>
+									</Child>
+									<Child Name="staticText14NorthAv" Key="{98898ABD-3F36-4AB1-B026-B93A99611C12}">
+										<Image FileName="860343975" Left="874" Top="990" Right="1046" Bottom="1026" />
+										<TypeInfo Item0="{9E688D25-DA4F-4A41-9B2D-4CDA76847109}" />
+										<Selectors>
+											<Selector>
+												<Value Value="//*[@name=&quot;14, North av. &quot; or @label=&quot;14, North av. &quot;]" />
+											</Selector>
+											<Selector>
+												<Value Value="//*[@label=&quot;14, North av. &quot;]" />
+											</Selector>
+											<Selector>
+												<Value Value="//XCUIElementTypeCell[8]/XCUIElementTypeStaticText[2]" />
+											</Selector>
+											<Selector>
+												<Value Value="//*[@name=&quot;14, North av. &quot;]" />
+											</Selector>
+										</Selectors>
+									</Child>
+									<Child Name="table2" Key="{BCC31687-D18F-4B0C-9754-2272CDDD6372}">
+										<Image FileName="482977474" Left="0" Top="0" Right="640" Bottom="2160" />
+										<Selectors>
+											<Selector>
+												<Value Value="//XCUIElementTypeOther[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable" />
+											</Selector>
+										</Selectors>
+									</Child>
+									<Child Name="other" Key="{BB00C338-F03B-421A-9597-7436889CD8AE}">
+										<Image FileName="482977474" Left="0" Top="140" Right="640" Bottom="228" />
+										<Selectors>
+											<Selector>
+												<Value Value="//XCUIElementTypeCell[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther" />
+											</Selector>
+										</Selectors>
+									</Child>
+								</Children>
+							</Child>
+						</Children>
+					</Child>
+				</Children>
+			</Child>
+		</Children>
+	</Nodes>
+	<LogicalNodes Name="Aliases" Owner="{BE401E45-B2D6-4FBA-931A-C2117D5C51AD}">
+		<Child Name="Device" Owner="{690E46F4-D5C1-44DE-BC72-329E3BAA16EB}">
+			<Child Name="processSmartBearQAAppsOrders" Owner="{3541412F-6594-492A-A6E7-76F24B7F98FC}">
+				<Child Name="table" Owner="{2597143A-5218-45E1-B727-7CA3B7E073B1}">
+					<Child Name="staticText14NorthAv" Owner="{98898ABD-3F36-4AB1-B026-B93A99611C12}" />
+				</Child>
+				<Child Name="table2" Owner="{BCC31687-D18F-4B0C-9754-2272CDDD6372}">
+					<Child Name="other" Owner="{BB00C338-F03B-421A-9597-7436889CD8AE}" />
+				</Child>
+			</Child>
+		</Child>
+	</LogicalNodes>
+</Root>

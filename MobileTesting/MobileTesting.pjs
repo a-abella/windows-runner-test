@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Root signature="{24B6FA0B-0143-461A-9758-AEB9E9A9428B}" version="15.0" key="{550633E6-56F2-4203-9C97-F4A6030F4EC6}">
+	<children>
+		<child name="BasicMobileTest" key="{A6663CEB-BF7E-4E4B-BF74-2949C1DB6A5A}" path="BasicMobileTest\BasicMobileTest.mds" />
+	</children>
+	<testItems key="{64FD1FFA-D8FF-44F2-8803-326DF7499798}">
+		<children>
+			<testItem key="{A6663CEB-BF7E-4E4B-BF74-2949C1DB6A5A}" enabled="True" timeout="0" stopOnError="True" description="" />
+		</children>
+	</testItems>
+	<variables key="{76A82F71-8060-4F10-A236-3A0ABFBC72D0}" />
+	<analysis key="{E835AB32-24B0-41A6-93A3-DB4718633E76}" />
+	<scc key="{00000000-0000-0000-0000-000000000000}" name="">
+		<data />
+	</scc>
+</Root>

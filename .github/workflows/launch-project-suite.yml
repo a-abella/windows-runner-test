@@ -1,0 +1,32 @@
+name: Execute Project Suite
+run-name: TestExecute run for ${{ inputs.project }} project 
+on:
+  workflow_dispatch:
+    inputs:
+      project:
+        type: choice
+        description: Project to be executed
+        options: 
+        - Desktop
+        - Mobile
+        - Web
+jobs:
+  DownloadInstallAndRunTE:
+    timeout-minutes: 30
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "Starting job [Event=${{ github.event_name }}]"
+      - run: echo "This job is now running on a ${{ runner.os }} self-hosted runner!"
+      # - run: Invoke-WebRequest -Uri "${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}" -OutFile ".\TE.exe"
+      # - run: echo "TestExecute downloaded - ${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}"
+      # - run: dir
+      #   shell: cmd
+      # - run: .\TE.exe -SilentInstall
+      #   shell: cmd
+      - run: set PATH_TE="${{ vars.TEST_EXECUTE_BIN }}"
+        shell: cmd
+      - run: .\test-runner.bat ${{ secrets.TEST_EXECUTE_ACCESS_KEY }} ${{ inputs.project }}
+        shell: cmd
+      - run: echo "Test executed!"
+        shell: cmd
