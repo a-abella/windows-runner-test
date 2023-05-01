@@ -27,7 +27,7 @@ jobs:
         shell: cmd
       - run: |
           $x = Start-Process -FilePath "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -PassThru
-          echo "pid=$($x.Id)"
+          echo "pid=$($x.Id)" >> $ENV:GITHUB_OUTPUT
         shell: powershell
         id: edge
       - run: |
