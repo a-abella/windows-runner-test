@@ -31,7 +31,7 @@ jobs:
         shell: powershell
         id: edge
       - run: |
-          Start-Sleep -s 15
+          Start-Sleep -s 60
         shell: powershell
       - run: |
           Stop-Process -Id ${{ steps.edge.outputs.pid }}
