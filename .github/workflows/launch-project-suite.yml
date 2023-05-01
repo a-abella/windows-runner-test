@@ -26,6 +26,10 @@ jobs:
       #   shell: cmd
       - run: set PATH_TE="${{ vars.TEST_EXECUTE_BIN }}"
         shell: cmd
+      - name: create tester user
+        run: |
+          New-LocalUser -Name "Tester" -NoPassword
+        shell: powershell
       - run: |
           REM .\test-runner.bat ${{ secrets.TEST_EXECUTE_ACCESS_KEY }} ${{ inputs.project }}
           REM Clears the screen
@@ -74,7 +78,9 @@ jobs:
           REM Launches TestExecute
           REM executes the specified project
           REM and closes TestExecute when the run is over
-          "C:\Program Files (x86)\SmartBear\TestExecute 15\Bin\TestExecute.exe" %ProjectPath% /r /e /AccessKey:%AccessKey% /Timeout:600 /ns /ErrorLog:%cd%\logs\error.log /ExportLog:%cd%\logs\runlog.html /shr:%cd%\logs\shared-repo-link.txt /shrn:LogFromGitHubAction /shrei:7
+          mkdir %cd%\logs
+          IF EXIST %cd%\logs\error.log DEL /F %cd%\logs\error.log
+          "C:\Program Files (x86)\SmartBear\TestExecute 15\Bin\SessionCreator.exe" RunTest /ProjectPath:%ProjectPath% /UserName:Tester /AccessKey:%AccessKey% /Timeout:600 /ExportLog:%cd%\logs\runlog.html
 
           set Error_Level=%ERRORLEVEL%
           ECHO TestExecute execution finished with code: %Error_Level%
@@ -167,3 +173,9 @@ jobs:
         shell: cmd
       - run: echo "Test executed!"
         shell: cmd
+
+      - name: Cleanup PS run
+        if: ! cancelled()
+        run: |
+          Remove-LocalUser -Name "Tester"
+        shell: powershell
