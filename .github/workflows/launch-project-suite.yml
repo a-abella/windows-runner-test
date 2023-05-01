@@ -28,8 +28,8 @@ jobs:
         shell: cmd
       - name: create tester user
         run: |
-          New-LocalUser -Name "Tester" -NoPassword -Verb runAs
-        shell: powershell
+          New-LocalUser -Name "Tester" -NoPassword
+        shell: pwsh
       - run: |
           REM .\test-runner.bat ${{ secrets.TEST_EXECUTE_ACCESS_KEY }} ${{ inputs.project }}
           REM Clears the screen
@@ -178,4 +178,4 @@ jobs:
         if: ${{ !cancelled() && (success() || failure()) }}
         run: |
           Remove-LocalUser -Name "Tester" -Verb runAs
-        shell: powershell
+        shell: pwsh
