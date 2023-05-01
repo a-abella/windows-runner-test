@@ -28,7 +28,7 @@ jobs:
         shell: cmd
       - name: create tester user
         run: |
-          New-LocalUser -Name "Tester" -NoPassword
+          New-LocalUser -Name "Tester" -NoPassword -Verb runAs
         shell: powershell
       - run: |
           REM .\test-runner.bat ${{ secrets.TEST_EXECUTE_ACCESS_KEY }} ${{ inputs.project }}
@@ -177,5 +177,5 @@ jobs:
       - name: Cleanup PS run
         if: ${{ !cancelled() && (success() || failure()) }}
         run: |
-          Remove-LocalUser -Name "Tester"
+          Remove-LocalUser -Name "Tester" -Verb runAs
         shell: powershell
