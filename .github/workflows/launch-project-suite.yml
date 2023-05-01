@@ -83,7 +83,7 @@ jobs:
           REM and closes TestExecute when the run is over
           mkdir %cd%\logs
           IF EXIST %cd%\logs\error.log DEL /F %cd%\logs\error.log
-          "C:\Program Files (x86)\SmartBear\TestExecute 15\Bin\SessionCreator.exe" RunTest /ProjectPath:%ProjectPath% /UserName:Tester /Password:pW01! /AccessKey:%AccessKey% /Timeout:600 /ExportLog:%cd%\logs\runlog.html
+          "C:\Program Files (x86)\SmartBear\TestExecute 15\Bin\SessionCreator.exe" RunTest /UseActiveSession /ProjectPath:%ProjectPath% /UserName:Tester /Password:pW01! /AccessKey:%AccessKey% /Timeout:600 /ExportLog:%cd%\logs\runlog.html
 
           set Error_Level=%ERRORLEVEL%
           ECHO TestExecute execution finished with code: %Error_Level%
