@@ -10,12 +10,6 @@
 		<children>
 			<testItem name="ProjectTestItem1" key="{515D12EF-2FD8-44B1-965C-AA56CABF7E22}" group="False" parallel="False" enabled="True" testMoniker="KDT\{FB7FEB4E-6811-428E-9B6C-0F26CD076426}" count="1" timeout="0" stopOnError="3" stopOnException="2" description="" tmsData="" testCase="True">
 				<testParameters />
-				<environments activeCloud="SWT">
-					<cloud name="SWT" testedURL="https://bearstore-testsite.smartbear.com/">
-						<CapabilityItem Server="https://eu-desktop-hub.bitbar.com/wd/hub" JSON="{&quot;platform&quot;:&quot;Windows&quot;,&quot;osVersion&quot;:&quot;11&quot;,&quot;browserName&quot;:&quot;Microsoft Edge&quot;,&quot;version&quot;:&quot;112&quot;,&quot;resolution&quot;:&quot;1920x1080&quot;}" Platform="Desktop" OS="Windows 11" Browser="Microsoft Edge 112" Resolution="1920x1080" CustomCapabilitiesInfo="" />
-						<CapabilityItem Server="https://eu-desktop-hub.bitbar.com/wd/hub" JSON="{&quot;platform&quot;:&quot;Linux&quot;,&quot;osVersion&quot;:&quot;18.04&quot;,&quot;browserName&quot;:&quot;Firefox&quot;,&quot;version&quot;:&quot;112&quot;,&quot;resolution&quot;:&quot;2560x1920&quot;}" Platform="Desktop" OS="Linux 18.04" Browser="Firefox 112" Resolution="2560x1920" CustomCapabilitiesInfo="" />
-					</cloud>
-				</environments>
 				<children />
 			</testItem>
 		</children>
