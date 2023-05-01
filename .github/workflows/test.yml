@@ -1,4 +1,4 @@
-name: TestExecute Simple Test
+name: Simple Test
 on:
   push:
     branches: [master]
@@ -6,7 +6,7 @@ on:
     
 jobs:
   DownloadInstallAndRunTE:
-    name: Download and Install TE
+    name: Test
     timeout-minutes: 30
     runs-on: [self-hosted, windows]
     steps:
@@ -34,5 +34,5 @@ jobs:
           Start-Sleep -s 15
         shell: powershell
       - run: |
-          Stop-Process -Id ${{ steps.vars.outputs.edge.pid }}
+          Stop-Process -Id ${{ steps.edge.outputs.pid }}
         shell: powershell
