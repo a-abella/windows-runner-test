@@ -28,7 +28,8 @@ jobs:
         shell: cmd
       - name: create tester user
         run: |
-          New-LocalUser -Name "Tester" -Password "Tester"
+          $pw = ConvertTo-SecureString -String "Tester" -AsPlainText -Force
+          New-LocalUser -Name "Tester" -Password $pw
         shell: powershell
       - run: |
           REM .\test-runner.bat ${{ secrets.TEST_EXECUTE_ACCESS_KEY }} ${{ inputs.project }}
