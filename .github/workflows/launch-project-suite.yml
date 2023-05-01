@@ -175,7 +175,7 @@ jobs:
         shell: cmd
 
       - name: Cleanup PS run
-        if: ! cancelled()
+        if: ${{ !cancelled() && (success() || failure()) }}
         run: |
           Remove-LocalUser -Name "Tester"
         shell: powershell
