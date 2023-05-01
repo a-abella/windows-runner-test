@@ -26,13 +26,13 @@ jobs:
       #   shell: cmd
       - run: set PATH_TE="${{ vars.TEST_EXECUTE_BIN }}"
         shell: cmd
-      - name: create tester user
-        run: |
-          $pw = ConvertTo-SecureString -String "pW01!" -AsPlainText -Force
-          $user = New-LocalUser -Name "Tester" -Password $pw
-          Add-LocalGroupMember -Group "Administrators" -Member $user  
-          Add-LocalGroupMember -Group "Remote Desktop Users" -Member $user  
-        shell: powershell
+      # - name: create tester user
+      #   run: |
+      #     $pw = ConvertTo-SecureString -String "pW01!" -AsPlainText -Force
+      #     $user = New-LocalUser -Name "Tester" -Password $pw
+      #     Add-LocalGroupMember -Group "Administrators" -Member $user  
+      #     Add-LocalGroupMember -Group "Remote Desktop Users" -Member $user  
+      #   shell: powershell
       - run: |
           REM .\test-runner.bat ${{ secrets.TEST_EXECUTE_ACCESS_KEY }} ${{ inputs.project }}
           REM Clears the screen
@@ -177,8 +177,8 @@ jobs:
       - run: echo "Test executed!"
         shell: cmd
 
-      - name: Cleanup PS run
-        if: ${{ !cancelled() && (success() || failure()) }}
-        run: |
-          Remove-LocalUser -Name "Tester"
-        shell: powershell
+      # - name: Cleanup PS run
+      #   if: ${{ !cancelled() && (success() || failure()) }}
+      #   run: |
+      #     Remove-LocalUser -Name "Tester"
+      #   shell: powershell
