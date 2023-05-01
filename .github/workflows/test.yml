@@ -25,3 +25,14 @@ jobs:
         shell: cmd
       - run: set PATH_TE="${{ vars.TEST_EXECUTE_BIN }}"
         shell: cmd
+      - run: |
+          $x = Start-Process -FilePath "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -PassThru
+          echo "pid=$($x.Id)"
+        shell: powershell
+        id: edge
+      - run: |
+          Start-Sleep -s 15
+        shell: powershell
+      - run: |
+          Stop-Process -Id ${{ steps.vars.outputs.edge.pid }}
+        shell: powershell
