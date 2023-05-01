@@ -29,7 +29,9 @@ jobs:
       - name: create tester user
         run: |
           $pw = ConvertTo-SecureString -String "pW01!" -AsPlainText -Force
-          New-LocalUser -Name "Tester" -Password $pw
+          $user = New-LocalUser -Name "Tester" -Password $pw
+          Add-LocalGroupMember -Group "Administrators" -Member $user  
+          Add-LocalGroupMember -Group "Remote Desktop Users" -Member $user  
         shell: powershell
       - run: |
           REM .\test-runner.bat ${{ secrets.TEST_EXECUTE_ACCESS_KEY }} ${{ inputs.project }}
