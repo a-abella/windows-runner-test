@@ -216,7 +216,7 @@ jobs:
         shell: cmd
 
       - name: Cleanup PS run
-        if: ${{ !cancelled() && (success() || failure()) }}
+        if: always()
         run: |
           $user = "Tester"
           $homedir = "C:\Users\$user"
