@@ -221,4 +221,5 @@ jobs:
           $user = "Tester"
           $homedir = "C:\Users\$user"
           Get-CimInstance -Class Win32_userprofile | ? { $_.LocalPath -match [regex]::Escape($homedir) } | % { Remove-CimInstance -InputObject $_ }
+          Remove-LocalUser -Name Tester
         shell: powershell
