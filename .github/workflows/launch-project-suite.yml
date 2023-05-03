@@ -10,6 +10,12 @@ on:
         - Desktop
         - Mobile
         - Web
+      runner:
+        type: choice
+        description: select a runner
+        options:
+          - windows-22
+          - windows-19
 jobs:
   DownloadInstallAndRunTE:
     timeout-minutes: 30
@@ -26,14 +32,44 @@ jobs:
       #   shell: cmd
       - run: set PATH_TE="${{ vars.TEST_EXECUTE_BIN }}"
         shell: cmd
-      # - name: create tester user
-      #   run: |
-      #     $pw = ConvertTo-SecureString -String "pW01!" -AsPlainText -Force
-      #     $user = New-LocalUser -Name "Tester" -Password $pw
-      #     Add-LocalGroupMember -Group "Administrators" -Member $user  
-      #     Add-LocalGroupMember -Group "Remote Desktop Users" -Member $user  
-      #   shell: powershell
-      - run: |
+      - name: create tester user
+        run: |
+          $pw = ConvertTo-SecureString -String "pW01!" -AsPlainText -Force
+          $user = New-LocalUser -Name "Tester" -Password $pw
+          Add-LocalGroupMember -Group "Administrators" -Member $user  
+          Add-LocalGroupMember -Group "Remote Desktop Users" -Member $user  
+        shell: powershell
+      - name: configure prereqs for CreateSession
+        run: |
+          # disable ServerManager on logon
+          Get-ScheduledTask -TaskName ServerManager | Disable-ScheduledTask -Verbose
+          
+          # disable RDP password popup prompts
+          Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" -Name "fPromptForPassword" -Value 0
+          Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" -Name "PromptForCredsOnClient" -Value 0
+          
+          # disable ctrl-alt-del screen
+          Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "disablecad" -Value 1
+          
+          # set RDP security protocol
+          Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" -Name "SecurityLayer" -Value 1
+          
+          # disable RDP client cert popup
+          $itempath = "HKCU:\Software\Microsoft\Terminal Server Client"
+          if (!(Test-Path "$itempath")) {
+            New-Item -Path "$itempath"
+          }
+          Set-ItemProperty -Path "$itempath" -Name "AuthenticationLevelOverride" -Value 0
+          
+          # limit RDP sessions per user
+          Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" -Name "fSingleSessionPerUser" -Value 1
+          
+          # disable system banner texts
+          Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "LegalNoticeText" -Value ""
+          Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System" -Name "LegalNoticeCaption" -Value ""
+        shell: powershell
+      - name: Run TC in CreateSession
+        run: |
           REM .\test-runner.bat ${{ secrets.TEST_EXECUTE_ACCESS_KEY }} ${{ inputs.project }}
           REM Clears the screen
           CLS
@@ -81,8 +117,8 @@ jobs:
           REM Launches TestExecute
           REM executes the specified project
           REM and closes TestExecute when the run is over
+          IF EXIST %cd%\logs RMDIR /S %cd%\logs
           mkdir %cd%\logs
-          IF EXIST %cd%\logs\error.log DEL /F %cd%\logs\error.log
           "C:\Program Files (x86)\SmartBear\TestExecute 15\Bin\SessionCreator.exe" RunTest /UseActiveSession /ProjectPath:%ProjectPath% /UserName:Tester /Password:pW01! /AccessKey:%AccessKey% /Timeout:600 /ExportLog:%cd%\logs\runlog.html
 
           set Error_Level=%ERRORLEVEL%
@@ -177,8 +213,11 @@ jobs:
       - run: echo "Test executed!"
         shell: cmd
 
-      # - name: Cleanup PS run
-      #   if: ${{ !cancelled() && (success() || failure()) }}
-      #   run: |
-      #     Remove-LocalUser -Name "Tester"
-      #   shell: powershell
+      - name: Cleanup PS run
+        if: ${{ !cancelled() && (success() || failure()) }}
+        run: |
+          $user = "Tester"
+          $homedir = "C:\Users\$user"
+          Remove-LocalUser -Name "$user"
+          if (Test-Path $homedir) { Remove-Item $homedir -Recurse -Force }
+        shell: powershell
