@@ -220,6 +220,5 @@ jobs:
         run: |
           $user = "Tester"
           $homedir = "C:\Users\$user"
-          Remove-LocalUser -Name "$user"
-          if (Test-Path $homedir) { Remove-Item $homedir -Recurse -Force }
+          Get-CimInstance -Class Win32_userprofile | ? { $_.LocalPath -match [regex]::Escape($homedir) } | % { Remove-CimInstance -InputObject $_ }
         shell: powershell
