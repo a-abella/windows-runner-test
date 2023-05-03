@@ -35,7 +35,7 @@ jobs:
       - run: set PATH_TE="${{ vars.TEST_EXECUTE_BIN }}"
         shell: cmd
       - run: |
-          $x = Start-Process -FilePath "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" -PassThru
+          $x = Start-Process -FilePath "C:\Windows\system32\win32calc.exe" -PassThru
           echo "pid=$($x.Id)" >> $ENV:GITHUB_OUTPUT
         shell: powershell
         id: edge
