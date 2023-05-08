@@ -48,6 +48,10 @@ jobs:
           # disable ServerManager on logon
           Get-ScheduledTask -TaskName ServerManager | Disable-ScheduledTask -Verbose
           
+          # enable RDP
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -value 0
+          Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+          
           # disable RDP password popup prompts
           Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" -Name "fPromptForPassword" -Value 0
           Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" -Name "PromptForCredsOnClient" -Value 0
