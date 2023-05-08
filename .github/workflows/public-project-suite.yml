@@ -1,4 +1,4 @@
-name: Execute Project Suite PRIVATE
+name: Execute Project Suite PUBLIC
 run-name: TestExecute run for ${{ inputs.project }} project 
 on:
   workflow_dispatch:
@@ -6,32 +6,34 @@ on:
       project:
         type: choice
         description: Project to be executed
-        options: 
+        options:
+        - Web
         - Desktop
         - Mobile
-        - Web
       runner:
         type: choice
         description: select a runner
         options:
-          - windows-22
-          - windows-19
+          - windows-2019
+          - windows-2022
 jobs:
   DownloadInstallAndRunTE:
     timeout-minutes: 30
     runs-on:
-      - self-hosted
       - ${{ inputs.runner }}
     steps:
       - uses: actions/checkout@v3
       - run: echo "Starting job [Event=${{ github.event_name }}]"
-      - run: echo "This job is now running on a ${{ runner.os }} self-hosted runner!"
-      # - run: Invoke-WebRequest -Uri "${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}" -OutFile ".\TE.exe"
-      # - run: echo "TestExecute downloaded - ${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}"
-      # - run: dir
-      #   shell: cmd
-      # - run: .\TE.exe -SilentInstall
-      #   shell: cmd
+      - run: echo "This job is now running on a ${{ runner.os }} public runner!"
+      - run: |
+          $ProgressPreference = 'SilentlyContinue'
+          Invoke-WebRequest -Uri "${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}" -OutFile ".\TE.exe"
+        shell: powershell
+      - run: echo "TestExecute downloaded - ${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}"
+      - run: dir
+        shell: cmd
+      - run: .\TE.exe -SilentInstall
+        shell: cmd
       - run: set PATH_TE="${{ vars.TEST_EXECUTE_BIN }}"
         shell: cmd
       - name: create tester user
