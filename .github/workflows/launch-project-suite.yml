@@ -23,6 +23,12 @@ jobs:
       - self-hosted
       - ${{ inputs.runner }}
     steps:
+      - name: enable long-paths
+        run: |
+          Write-Host "Enable long path behavior"
+          # See https://docs.microsoft.com/en-us/windows/desktop/fileio/naming-a-file#maximum-path-length-limitation
+          Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1
+        shell: powershell
       - uses: actions/checkout@v3
       - run: echo "Starting job [Event=${{ github.event_name }}]"
       - run: echo "This job is now running on a ${{ runner.os }} self-hosted runner!"
@@ -41,6 +47,84 @@ jobs:
           Add-LocalGroupMember -Group "Administrators" -Member $user  
           Add-LocalGroupMember -Group "Remote Desktop Users" -Member $user  
         shell: powershell
+      - name: disable antivirus
+        run: |
+          Write-Host "Disable Windows Defender..."
+          $avPreference = @(
+              @{DisableArchiveScanning = $true}
+              @{DisableAutoExclusions = $true}
+              @{DisableBehaviorMonitoring = $true}
+              @{DisableBlockAtFirstSeen = $true}
+              @{DisableCatchupFullScan = $true}
+              @{DisableCatchupQuickScan = $true}
+              @{DisableIntrusionPreventionSystem = $true}
+              @{DisableIOAVProtection = $true}
+              @{DisablePrivacyMode = $true}
+              @{DisableScanningNetworkFiles = $true}
+              @{DisableScriptScanning = $true}
+              @{MAPSReporting = 0}
+              @{PUAProtection = 0}
+              @{SignatureDisableUpdateOnStartupWithoutEngine = $true}
+              @{SubmitSamplesConsent = 2}
+              @{ScanAvgCPULoadFactor = 5; ExclusionPath = @("D:\", "C:\")}
+              @{DisableRealtimeMonitoring = $true}
+          )
+
+          $avPreference += @(
+              @{EnableControlledFolderAccess = "Disable"}
+              @{EnableNetworkProtection = "Disabled"}
+          )
+
+          $avPreference | Foreach-Object {
+              $avParams = $_
+              Set-MpPreference @avParams
+          }
+
+          Write-Host "Disable Windows Defender scheduled tasks"
+          Get-ScheduledTask -TaskPath '\Microsoft\Windows\Windows Defender\' | Disable-ScheduledTask | Out-Null
+
+          # https://github.com/actions/runner-images/issues/4277
+          # https://docs.microsoft.com/en-us/microsoft-365/security/defender-endpoint/microsoft-defender-antivirus-compatibility?view=o365-worldwide
+          $atpRegPath = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Advanced Threat Protection'
+          if (Test-Path $atpRegPath) {
+              Write-Host "Set Microsoft Defender Antivirus to passive mode"
+              Set-ItemProperty -Path $atpRegPath -Name 'ForceDefenderPassiveMode' -Value '1' -Type 'DWORD'
+          }
+        shell: powershell
+      # - name: GDI process handle quota
+      #   run: |
+      #     # https://docs.microsoft.com/en-us/windows/win32/sysinfo/gdi-objects
+      #     # This value can be set to a number between 256 and 65,536
+
+      #     $defaultValue = 20000
+      #     Write-Host "Set the GDIProcessHandleQuota value to $defaultValue"
+      #     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows" -Name GDIProcessHandleQuota -Value $defaultValue
+      #     Set-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Windows" -Name GDIProcessHandleQuota -Value $defaultValue
+      #   shell: powershell
+      # - name: Disable IE Enh Sec Mode and Welc Screen
+      #   run: |
+      #     $AdminKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}"
+      #     $UserKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}"
+      #     Set-ItemProperty -Path $AdminKey -Name "IsInstalled" -Value 0 -Force
+      #     Set-ItemProperty -Path $UserKey -Name "IsInstalled" -Value 0 -Force
+
+      #     $ieProcess = Get-Process -Name Explorer -ErrorAction SilentlyContinue
+
+      #     if ($ieProcess){
+      #         Stop-Process -Name Explorer -Force -ErrorAction Continue
+      #     }
+      #     Write-Host "IE Enhanced Security Configuration (ESC) has been disabled."
+          
+      #     $AdminKey = "HKLM:\Software\Policies\Microsoft\Internet Explorer\Main"
+      #     New-Item -Path $AdminKey -Value 1 -Force
+      #     Set-ItemProperty -Path $AdminKey -Name "DisableFirstRunCustomize" -Value 1 -Force
+      #     Write-Host "Disabled IE Welcome screen"
+      #  shell: powershell
+      # - name: disable uac
+      #   run: |
+      #     Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Value 00000000 -Force
+      #     Write-Host "User Access Control (UAC) has been disabled."
+        # shell: powershell
       - name: configure prereqs for CreateSession
         run: |
           # disable ServerManager on logon
