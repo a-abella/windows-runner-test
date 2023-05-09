@@ -6,10 +6,10 @@ on:
       project:
         type: choice
         description: Project to be executed
-        options: 
+        options:
+        - Web 
         - Desktop
         - Mobile
-        - Web
       runner:
         type: choice
         description: select a runner
