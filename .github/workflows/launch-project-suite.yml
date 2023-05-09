@@ -91,16 +91,16 @@ jobs:
               Set-ItemProperty -Path $atpRegPath -Name 'ForceDefenderPassiveMode' -Value '1' -Type 'DWORD'
           }
         shell: powershell
-      # - name: GDI process handle quota
-      #   run: |
-      #     # https://docs.microsoft.com/en-us/windows/win32/sysinfo/gdi-objects
-      #     # This value can be set to a number between 256 and 65,536
+      - name: GDI process handle quota
+        run: |
+          # https://docs.microsoft.com/en-us/windows/win32/sysinfo/gdi-objects
+          # This value can be set to a number between 256 and 65,536
 
-      #     $defaultValue = 20000
-      #     Write-Host "Set the GDIProcessHandleQuota value to $defaultValue"
-      #     Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows" -Name GDIProcessHandleQuota -Value $defaultValue
-      #     Set-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Windows" -Name GDIProcessHandleQuota -Value $defaultValue
-      #   shell: powershell
+          $defaultValue = 20000
+          Write-Host "Set the GDIProcessHandleQuota value to $defaultValue"
+          Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows" -Name GDIProcessHandleQuota -Value $defaultValue
+          Set-ItemProperty -Path "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Windows" -Name GDIProcessHandleQuota -Value $defaultValue
+        shell: powershell
       # - name: Disable IE Enh Sec Mode and Welc Screen
       #   run: |
       #     $AdminKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}"
