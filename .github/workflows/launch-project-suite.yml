@@ -214,7 +214,7 @@ jobs:
           REM Launches TestExecute
           REM executes the specified project
           REM and closes TestExecute when the run is over
-          IF EXIST %cd%\logs RMDIR /S %cd%\logs
+          IF EXIST %cd%\logs RMDIR /S /Q %cd%\logs
           mkdir %cd%\logs
           "C:\Program Files (x86)\SmartBear\TestExecute 15\x64\Bin\SessionCreator.exe" RunTest /UseActiveSession /ProjectPath:%ProjectPath% /UserName:Tester /Password:pW01! /AccessKey:%AccessKey% /Timeout:600 /ExportLog:%cd%\logs\runlog.html /shr:%cd%\logs\shared-repo-link.txt /shrn:LogFromGitHubAction /shrei:7
           
