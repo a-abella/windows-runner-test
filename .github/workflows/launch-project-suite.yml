@@ -120,11 +120,11 @@ jobs:
           Set-ItemProperty -Path $AdminKey -Name "DisableFirstRunCustomize" -Value 1 -Force
           Write-Host "Disabled IE Welcome screen"
         shell: powershell
-      - name: disable uac
-        run: |
-          Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Value 00000000 -Force
-          Write-Host "User Access Control (UAC) has been disabled."
-        shell: powershell
+    #   - name: disable uac
+    #     run: |
+    #       Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Value 00000000 -Force
+    #       Write-Host "User Access Control (UAC) has been disabled."
+    #     shell: powershell
       # - name: enable developer mode
       #   run: |
       #     # Create AppModelUnlock if it doesn't exist, required for enabling Developer Mode
