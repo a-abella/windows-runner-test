@@ -137,7 +137,7 @@ jobs:
           }
 
           # Add registry value to enable Developer Mode
-          Set-ItemProperty -Path $RegistryKeyPath -Name AllowDevelopmentWithoutDevLicense -PropertyType DWORD -Value 1
+          Set-ItemProperty -Path $RegistryKeyPath -Name AllowDevelopmentWithoutDevLicense -Value 1
         shell: powershell
       - name: configure prereqs for CreateSession
         run: |
