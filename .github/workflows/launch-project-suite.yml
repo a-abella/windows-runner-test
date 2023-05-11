@@ -31,14 +31,18 @@ jobs:
       - uses: actions/checkout@v3
       - run: echo "Starting job [Event=${{ github.event_name }}]"
       - run: echo "This job is now running on a ${{ runner.os }} self-hosted runner!"
-      - name: Download + Install TestExecute
+      - name: Download TestExecute
         run: |
           if (!( Test-Path "${{ vars.TEST_EXECUTE_BIN }}")) {
             $ProgressPreference = 'SilentlyContinue'
-            Invoke-WebRequest -Uri "${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}" -OutFile "C:\\TE.exe"
-            & "C:\\TE.exe" -SilentInstall
+            Invoke-WebRequest -Uri "${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}" -OutFile "C:\TE.exe"
+            & 'C:\TE.exe -SilentInstall'
           }
         shell: powershell
+      - name: Install TestExecute
+        run: |
+          if not exist "${{ vars.TEST_EXECUTE_BIN }}" C:\TE.exe -SilentInstall
+        shell: cmd
       - name: Create Tester User
         run: |
           $pw = ConvertTo-SecureString -String "pW01!" -AsPlainText -Force
