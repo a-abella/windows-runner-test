@@ -33,12 +33,12 @@ jobs:
       - run: echo "This job is now running on a ${{ runner.os }} self-hosted runner!"
       - name: Download + Install TestExecute
         run: |
-          if (!( Test-Path "${{ vars.TEST_EXECUTE_BIN }}" )) {
+          if (!( Test-Path "${{ vars.TEST_EXECUTE_BIN }}")) {
             $ProgressPreference = 'SilentlyContinue'
             Invoke-WebRequest -Uri "${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}" -OutFile ".\TE.exe"
             .\TE.exe -SilentInstall
           }
-        shell: cmd
+        shell: powershell
       - name: Create Tester User
         run: |
           $pw = ConvertTo-SecureString -String "pW01!" -AsPlainText -Force
