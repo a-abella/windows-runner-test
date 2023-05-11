@@ -35,8 +35,8 @@ jobs:
         run: |
           if (!( Test-Path "${{ vars.TEST_EXECUTE_BIN }}")) {
             $ProgressPreference = 'SilentlyContinue'
-            Invoke-WebRequest -Uri "${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}" -OutFile ".\TE.exe"
-            .\TE.exe -SilentInstall
+            Invoke-WebRequest -Uri "${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}" -OutFile "C:\\TE.exe"
+            & "C:\\TE.exe" -SilentInstall
           }
         shell: powershell
       - name: Create Tester User
@@ -45,10 +45,10 @@ jobs:
           $user = New-LocalUser -Name "Tester" -Password $pw
           Add-LocalGroupMember -Group "Administrators" -Member $user
           Add-LocalGroupMember -Group "Remote Desktop Users" -Member $user
-          $acl = Get-ACL C:\actions-runner\_work
-          $ar = New-Object System.Security.AccessControl.FileSystemAccessRule("Tester", "FullControl", "ContainerInherit,ObjectInherit", "None", "Allow")
-          $acl.SetAccessRule($ar)
-          Set-ACL C:\actions-runner\_work $acl
+        #   $acl = Get-ACL C:\actions-runner\_work
+        #   $ar = New-Object System.Security.AccessControl.FileSystemAccessRule("Tester", "FullControl", "ContainerInherit,ObjectInherit", "None", "Allow")
+        #   $acl.SetAccessRule($ar)
+        #   Set-ACL C:\actions-runner\_work $acl
         shell: powershell
       - name: Disable Defender Antivirus
         run: |
