@@ -36,7 +36,6 @@ jobs:
           if (!( Test-Path "${{ vars.TEST_EXECUTE_BIN }}")) {
             $ProgressPreference = 'SilentlyContinue'
             Invoke-WebRequest -Uri "${{ vars.TEST_EXECUTE_DOWNLOAD_URL }}" -OutFile "C:\TE.exe"
-            & 'C:\TE.exe -SilentInstall'
           }
         shell: powershell
       - name: Install TestExecute
